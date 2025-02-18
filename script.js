@@ -1,45 +1,27 @@
-describe('Async Function with Timeout Tests', () => {
-  it('should display the message after delay - Test 1', () => {
-    const delay = 1000;
-    const text = "Test - 1";
-    
-    // Visit the page
-    cy.visit(baseUrl + "/main.html");
-    
-    // Enter text and delay
-    cy.get("input#text").type(text);
-    cy.get("input#delay").type(delay);
-    
-    // Click the button
-    cy.get("button#btn").click();
-    
-    // Assert that the output is initially empty
-    cy.get("div#output").should("be.empty");
-    
-    // Wait for the delay and check the output
-    cy.wait(delay);
-    cy.get("div#output").should('have.text', text);  // Check the text after the delay
-  });
+// Function to simulate delay using async/await and setTimeout
+async function displayMessageAfterDelay(text, delay) {
+  // Delay logic using promise and setTimeout
+  await new Promise(resolve => setTimeout(resolve, delay));
+  
+  // Display the text in the output div after the delay
+  document.getElementById('output').textContent = text;
+}
 
-  it('should display the message after delay - Test 2', () => {
-    const delay = 2000;
-    const text = "Test - 2";
-    
-    // Visit the page
-    cy.visit(baseUrl + "/main.html");
-    
-    // Enter text and delay
-    cy.get("input#text").type(text);
-    cy.get("input#delay").type(delay);
-    
-    // Click the button
-    cy.get("button#btn").click();
-    
-    // Assert that the output is initially empty
-    cy.get("div#output").should("be.empty");
-    
-    // Wait for the delay and check the output
-    cy.wait(delay);
-    cy.get("div#output").should('have.text', text);  // Check the text after the delay
-  });
+// Event listener for the button
+document.getElementById('btn').addEventListener('click', function () {
+  // Retrieve the values from the input fields
+  const text = document.getElementById('text').value;
+  const delay = parseInt(document.getElementById('delay').value);
+
+  // Validate input (ensure delay is a positive number)
+  if (!text || isNaN(delay) || delay < 0) {
+    alert("Please provide valid text and delay.");
+    return;
+  }
+
+  // Clear the output div before displaying the message
+  document.getElementById('output').textContent = "";
+
+  // Call the async function to display the message after the delay
+  displayMessageAfterDelay(text, delay);
 });
