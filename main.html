@@ -4,14 +4,29 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Async Function with Timeout</title>
-    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <input type="text" id="text" placeholder="Enter message">
+    <input type="text" id="text" placeholder="Enter your message">
     <input type="number" id="delay" placeholder="Enter delay in ms">
     <button id="btn">Submit</button>
     <div id="output"></div>
-
-    <script src="script.js"></script>
+    <script>
+        document.getElementById("btn").addEventListener("click", async () => {
+            const message = document.getElementById("text").value;
+            const delay = parseInt(document.getElementById("delay").value);
+            const outputDiv = document.getElementById("output");
+            
+            if (!message || isNaN(delay) || delay < 0) {
+                outputDiv.textContent = "Please enter a valid message and delay.";
+                return;
+            }
+            
+            outputDiv.textContent = "Waiting...";
+            
+            await new Promise(resolve => setTimeout(resolve, delay));
+            
+            outputDiv.textContent = message;
+        });
+    </script>
 </body>
 </html>
